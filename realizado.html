@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Completed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .transaction-amount {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .recipient-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        
+        .notification {
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .transaction-info {
+            margin-bottom: 40px;
+        }
+        
+        .transaction-message {
+            color: #0070ba;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: auto;
+            padding-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: #000;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="transaction-amount" id="transactionAmount"></div>
+            <div class="recipient-name" id="recipientName"></div>
+            <div class="notification" id="notificationMessage"></div>
+            <div class="transaction-info">
+                <div class="transaction-message">Tell us how this transaction was made</div>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button class="btn btn-primary" id="doneBtn">Done</button>
+            <button class="btn btn-secondary" id="sendMoreBtn">Send More</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const amount = urlParams.get('amount') || '0.01';
+            const recipient = urlParams.get('recipient') || 'Name not specified';
+            
+            // Update the interface with dynamic data
+            document.getElementById('transactionAmount').textContent = `You have sent US$ ${amount} to`;
+            document.getElementById('recipientName').textContent = recipient;
+            document.getElementById('notificationMessage').textContent = `We will notify ${recipient.split(' ')[0]} that you sent it.`;
+            
+            // Set up buttons
+            document.getElementById('doneBtn').addEventListener('click', function() {
+                // Redirect to index.html with transaction parameters
+                window.location.href = `index.html?amount=${amount}&recipient=${encodeURIComponent(recipient)}`;
+            });
+            
+            document.getElementById('sendMoreBtn').addEventListener('click', function() {
+                window.location.href = 'envio.html';
+            });
+        });
+    </script>
+</body>
+</html>

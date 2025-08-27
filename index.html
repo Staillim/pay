@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PayPal - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Simplified Header -->
+    <header class="paypal-header">
+        <div class="header-content">
+            <button class="menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="profile-pic"><b>HG</b></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="paypal-main">
+        <!-- Balance Section with Box and Logo -->
+        <section class="balance-container">
+            <div class="balance-section">
+                <div class="balance-header">
+                    <img src="https://cdn.pixabay.com/photo/2018/05/08/21/29/paypal-3384015_1280.png" alt="PayPal" class="balance-logo">
+                    <div class="balance-titles">
+                        <div class="balance-amount"><strong><b id="currentBalance">US$ 15,2700.00</b></strong></div>
+                        <div class="balance-label">Balance</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Send Payments Section -->
+        <section class="send-payments">
+            <h2><b>Send Payments</b></h2>
+            <div class="payment-card">
+                <div class="payment-title"><b>Pay from Your Phone</b></div>
+                <div class="payment-subtitle">For the Things You Love</div>
+                <button class="send-now-btn" onclick="location.href='envio.html'"><b>Send Now</b></button>
+            </div>
+        </section>
+
+        <!-- Divider Line -->
+        <div class="divider"></div>
+
+        <!-- Received Money Section -->
+        <section class="received-money-section">
+            <div class="received-list" id="transactionsList">
+                
+                <!-- Positive Transaction -->
+                <div class="received-item">
+                    <div class="received-avatar">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="received-details">
+                        <div class="received-from"><b>Mrt Compani</b></div>
+                        <div class="received-description">Your welcome bonus is ready. Enj...</div>
+                        <div class="received-date">Today</div>
+                    </div>
+                    <div class="received-amount positive"><b>+US$ 15,2700.00</b></div>
+                </div>
+                
+                <!-- Negative Transaction 1 -->
+                <div class="received-item">
+                    <div class="received-avatar">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="received-details">
+                        <div class="received-from"><b>Nequi (by Bancolombia)</b></div>
+                        <div class="received-date">Yesterday</div>
+                    </div>
+                    <div class="received-amount negative"><b>-US$ 1250.00</b></div>
+                </div>
+
+                <!-- Negative Transaction 2 -->
+                <div class="received-item">
+                    <div class="received-avatar">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="received-details">
+                        <div class="received-from"><b>Nequi (by Bancolombia)</b></div>
+                        <div class="received-date">Yesterday</div>
+                    </div>
+                    <div class="received-amount negative"><b>-US$ 750.00</b></div>
+                </div>
+
+                <!-- Positive Transaction -->
+                <div class="received-item">
+                    <div class="received-avatar">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="received-details">
+                        <div class="received-from"><b>Tik Tok</b></div>
+                        <div class="received-description">Your funds have been successfully delivered. Enj...</div>
+                        <div class="received-date">Apr 27</div>
+                    </div>
+                    <div class="received-amount positive"><b>+US$ 2000.00</b></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Reorganized Bottom Bar -->
+    <div class="bottom-container">
+        <!-- Action Buttons Top -->
+        <div class="action-buttons-top">
+            <button class="action-btn" onclick="location.href='envio.html'"><b>Send</b></button>
+            <button class="action-btn"><b>Request</b></button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span><b>Home</b></span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-qrcode"></i>
+                <span><b>Payments</b></span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-wallet"></i>
+                <span><b>Wallet</b></span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to format amount
+            function formatAmount(amount) {
+                return amount.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            // Generate unique transaction ID
+            function generateTransactionId() {
+                return 'txn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            }
+
+            // Load balance from localStorage or use initial
+            const balanceElement = document.getElementById('currentBalance');
+            let savedBalance = localStorage.getItem('balance');
+            let currentBalance;
+            if (savedBalance) {
+                currentBalance = parseFloat(savedBalance);
+            } else {
+                currentBalance = parseFloat(balanceElement.textContent
+                    .replace('US$', '')
+                    .replace(',', '')
+                    .trim());
+            }
+            balanceElement.textContent = 'US$ ' + formatAmount(currentBalance);
+
+            // Load saved transactions from localStorage
+            const transactionsList = document.getElementById('transactionsList');
+            let savedTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+            // Function to render all transactions
+            function renderTransactions() {
+                // Clear dynamic transactions
+                const dynamicTransactions = transactionsList.querySelectorAll('.received-item.dynamic');
+                dynamicTransactions.forEach(item => item.remove());
+
+                // Sort transactions by timestamp descending (most recent first)
+                const sortedTransactions = savedTransactions.sort((a, b) => b.timestamp - a.timestamp);
+
+                // Render sorted transactions
+                sortedTransactions.forEach(transaction => {
+                    const newTransaction = document.createElement('div');
+                    newTransaction.className = 'received-item dynamic';
+                    newTransaction.dataset.txnId = transaction.id;
+                    const statusText = transaction.status === 'processing' ? 'Processing...' : 'Sent';
+                    const statusClass = transaction.status === 'processing' ? 'status-processing' : 'status-sent';
+                    newTransaction.innerHTML = `
+                        <div class="received-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="received-details">
+                            <div class="received-from"><b>${transaction.recipient}</b></div>
+                            <div class="received-date">${transaction.date}</div>
+                            <div class="received-status ${statusClass}">${statusText}</div>
+                        </div>
+                        <div class="received-amount negative"><b>-US$ ${transaction.amount}</b></div>
+                    `;
+                    transactionsList.insertBefore(newTransaction, transactionsList.firstChild);
+                });
+            }
+
+            // Update transaction statuses
+            function updateTransactionStatuses() {
+                let updated = false;
+                savedTransactions = savedTransactions.map(transaction => {
+                    if (transaction.status === 'processing') {
+                        const timeElapsed = (Date.now() - transaction.timestamp) / 1000; // Seconds
+                        if (timeElapsed >= 1800) { // 30 minutes
+                            transaction.status = 'sent';
+                            updated = true;
+                        }
+                    }
+                    return transaction;
+                });
+                if (updated) {
+                    localStorage.setItem('transactions', JSON.stringify(savedTransactions));
+                    renderTransactions();
+                }
+            }
+
+            // Render initial transactions and update statuses
+            updateTransactionStatuses();
+            renderTransactions();
+
+            // Check statuses periodically
+            setInterval(updateTransactionStatuses, 60000); // Every minute
+
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const transactionAmount = urlParams.get('amount');
+            const transactionRecipient = urlParams.get('recipient');
+            
+            // If there is a transaction to register
+            if (transactionAmount && transactionRecipient) {
+                // Normalize incoming amount
+                const amount = parseFloat(transactionAmount.replace(',', '.'));
+                const newBalance = currentBalance - amount;
+                
+                // Update balance in DOM and localStorage
+                balanceElement.textContent = 'US$ ' + formatAmount(newBalance);
+                localStorage.setItem('balance', newBalance.toString());
+
+                // Add the new transaction
+                const formattedAmount = formatAmount(amount);
+                const newTransactionData = {
+                    id: generateTransactionId(),
+                    recipient: transactionRecipient,
+                    amount: formattedAmount,
+                    date: 'Today',
+                    status: 'processing',
+                    timestamp: Date.now()
+                };
+                savedTransactions.unshift(newTransactionData);
+                localStorage.setItem('transactions', JSON.stringify(savedTransactions));
+
+                // Re-render all transactions
+                renderTransactions();
+
+                // Clear URL parameters
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+    </script>
+
+    <style>
+        .received-status {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .status-processing {
+            color: #888;
+            font-style: italic;
+        }
+        .status-sent {
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>
