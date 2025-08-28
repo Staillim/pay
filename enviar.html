@@ -2,245 +2,233 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PayPal - Home</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Money</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .back-arrow {
+            font-size: 24px;
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+            background-color: #0070ba;
+        }
+        
+        .user-details {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .user-contact {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .amount-section {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .amount-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .dollar-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #333;
+        }
+        
+        .amount-field {
+            flex: 1;
+            font-size: 32px;
+            border: none;
+            outline: none;
+            padding: 5px 0;
+            padding-right: 80px;
+        }
+        
+        .currency-selector {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-color: #f5f5f5;
+            border-radius: 20px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .currency {
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .message-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            margin-right: 10px;
+        }
+        
+        .next-button {
+            background-color: #000;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
-    <!-- Simplified Header -->
-    <header class="paypal-header">
-        <div class="header-content">
-            <button class="menu-btn"><i class="fas fa-bars"></i></button>
-            <div class="profile-pic"><b>HG</b></div>
+    <div class="container">
+        <div class="header">
+            <a href="send.html" class="back-arrow">←</a>
+            <div class="title">Send Money</div>
         </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="paypal-main">
-        <!-- Balance Section with Box and Logo -->
-        <section class="balance-container">
-            <div class="balance-section">
-                <div class="balance-header">
-                    <img src="https://cdn.pixabay.com/photo/2018/05/08/21/29/paypal-3384015_1280.png" alt="PayPal" class="balance-logo">
-                    <div class="balance-titles">
-                        <div class="balance-amount"><strong><b id="currentBalance">US$ 15,2700.00</b></strong></div>
-                        <div class="balance-label">Balance</div>
-                    </div>
-                </div>
+        
+        <div class="user-info">
+            <div class="user-avatar" id="userAvatar"></div>
+            <div class="user-details">
+                <div class="user-name" id="userName"></div>
+                <div class="user-contact" id="userContact"></div>
             </div>
-        </section>
-
-        <!-- Send Payments Section -->
-        <section class="send-payments">
-            <h2><b>Send Payments</b></h2>
-            <div class="payment-card">
-                <div class="payment-title"><b>Pay from Your Phone</b></div>
-                <div class="payment-subtitle">For the Things You Love</div>
-                <button class="send-now-btn" onclick="location.href='envio.html'"><b>Send Now</b></button>
-            </div>
-        </section>
-
-        <!-- Divider Line -->
-        <div class="divider"></div>
-
-        <!-- Received Money Section -->
-        <section class="received-money-section">
-            <div class="received-list" id="transactionsList">
-                
-                <!-- Positive Transaction -->
-                <div class="received-item">
-                    <div class="received-avatar">
-                        <i class="fas fa-store"></i>
-                    </div>
-                    <div class="received-details">
-                        <div class="received-from"><b>Mrt Compani</b></div>
-                        <div class="received-description">Your welcome bonus is ready. Enj...</div>
-                        <div class="received-date">Today</div>
-                    </div>
-                    <div class="received-amount positive"><b>+US$ 15,2700.00</b></div>
-                </div>
-                
-                <!-- Negative Transaction 1 -->
-                <div class="received-item">
-                    <div class="received-avatar">
-                        <i class="fas fa-store"></i>
-                    </div>
-                    <div class="received-details">
-                        <div class="received-from"><b>Nequi (by Bancolombia)</b></div>
-                        <div class="received-date">Yesterday</div>
-                    </div>
-                    <div class="received-amount negative"><b>-US$ 1250.00</b></div>
-                </div>
-
-                <!-- Negative Transaction 2 -->
-                <div class="received-item">
-                    <div class="received-avatar">
-                        <i class="fas fa-store"></i>
-                    </div>
-                    <div class="received-details">
-                        <div class="received-from"><b>Nequi (by Bancolombia)</b></div>
-                        <div class="received-date">Yesterday</div>
-                    </div>
-                    <div class="received-amount negative"><b>-US$ 750.00</b></div>
-                </div>
-
-                <!-- Positive Transaction -->
-                <div class="received-item">
-                    <div class="received-avatar">
-                        <i class="fas fa-store"></i>
-                    </div>
-                    <div class="received-details">
-                        <div class="received-from"><b>Tik Tok</b></div>
-                        <div class="received-description">Your funds have been successfully delivered. Enj...</div>
-                        <div class="received-date">Apr 27</div>
-                    </div>
-                    <div class="received-amount positive"><b>+US$ 2000.00</b></div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Reorganized Bottom Bar -->
-    <div class="bottom-container">
-        <!-- Action Buttons Top -->
-        <div class="action-buttons-top">
-            <button class="action-btn" onclick="location.href='envio.html'"><b>Send</b></button>
-            <button class="action-btn"><b>Request</b></button>
         </div>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <a href="index.html" class="nav-item active">
-                <i class="fas fa-home"></i>
-                <span><b>Home</b></span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-qrcode"></i>
-                <span><b>Payments</b></span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-wallet"></i>
-                <span><b>Wallet</b></span>
-            </a>
-        </nav>
+        
+        <div class="amount-section">
+            <div class="amount-input">
+                <span class="dollar-icon">$</span>
+                <input type="text" class="amount-field" id="amountInput" value="0" placeholder="0">
+                <div class="currency-selector">
+                    <div class="currency">USD ▼</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="message-section">
+            <input type="text" class="message-input" id="messageInput" placeholder="Add a message">
+            <button class="next-button">Next</button>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Function to format amount
-            function formatAmount(amount) {
-                return amount.toLocaleString('en-US', {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name') || 'Name not specified';
+            const username = urlParams.get('username');
+            
+            // Display full name in both lines
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userContact').textContent = username ? 
+                (username.startsWith('@') ? username : `@${username}`) : 
+                name;
+            
+            // Set up avatar (first letter of name)
+            const avatar = document.getElementById('userAvatar');
+            avatar.textContent = name.charAt(0).toUpperCase();
+            
+            // Handle button clicks
+            document.querySelector('.back-arrow').addEventListener('click', function() {
+                window.location.href = 'send.html';
+            });
+            
+            document.querySelector('.next-button').addEventListener('click', function() {
+                let amount = document.getElementById('amountInput').value.trim();
+                const recipient = document.getElementById('userName').textContent;
+                
+                // Clean amount: remove thousands separators and normalize comma to period
+                amount = amount.replace(/,/g, '').replace(',', '.');
+                const amountNumber = parseFloat(amount);
+                
+                // Validate amount
+                if (isNaN(amountNumber) || amountNumber <= 0) {
+                    alert('Please enter a valid amount.');
+                    return;
+                }
+                if (amountNumber > 60000) {
+                    alert('The maximum transaction amount is US$ 60,000.00.');
+                    return;
+                }
+                
+                // Format amount with two decimals
+                const formattedAmount = amountNumber.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 });
-            }
-
-            // Generate unique transaction ID
-            function generateTransactionId() {
-                return 'txn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            }
-
-            // Load balance from localStorage or use initial
-            const balanceElement = document.getElementById('currentBalance');
-            let savedBalance = localStorage.getItem('balance');
-            let currentBalance;
-            if (savedBalance) {
-                currentBalance = parseFloat(savedBalance);
-            } else {
-                currentBalance = parseFloat(balanceElement.textContent
-                    .replace('US$', '')
-                    .replace(',', '')
-                    .trim());
-            }
-            balanceElement.textContent = 'US$ ' + formatAmount(currentBalance);
-
-            // Load saved transactions from localStorage
-            const transactionsList = document.getElementById('transactionsList');
-            let savedTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
-
-            // Function to render all transactions
-            function renderTransactions() {
-                // Clear dynamic transactions
-                const dynamicTransactions = transactionsList.querySelectorAll('.received-item.dynamic');
-                dynamicTransactions.forEach(item => item.remove());
-
-                // Sort transactions by timestamp descending (most recent first)
-                const sortedTransactions = savedTransactions.sort((a, b) => b.timestamp - a.timestamp);
-
-                // Render sorted transactions
-                sortedTransactions.forEach(transaction => {
-                    const newTransaction = document.createElement('div');
-                    newTransaction.className = 'received-item dynamic';
-                    newTransaction.dataset.txnId = transaction.id;
-                    newTransaction.innerHTML = `
-                        <div class="received-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="received-details">
-                            <div class="received-from"><b>${transaction.recipient}</b></div>
-                            <div class="received-date">${transaction.date}</div>
-                            <div class="received-status status-sent">Sent</div>
-                        </div>
-                        <div class="received-amount negative"><b>-US$ ${transaction.amount}</b></div>
-                    `;
-                    transactionsList.insertBefore(newTransaction, transactionsList.firstChild);
-                });
-            }
-
-            // Render initial transactions
-            renderTransactions();
-
-            // Get URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const transactionAmount = urlParams.get('amount');
-            const transactionRecipient = urlParams.get('recipient');
-            
-            // If there is a transaction to register
-            if (transactionAmount && transactionRecipient) {
-                // Normalize incoming amount
-                const amount = parseFloat(transactionAmount.replace(',', '.'));
-                const newBalance = currentBalance - amount;
                 
-                // Update balance in DOM and localStorage
-                balanceElement.textContent = 'US$ ' + formatAmount(newBalance);
-                localStorage.setItem('balance', newBalance.toString());
-
-                // Add the new transaction
-                const formattedAmount = formatAmount(amount);
-                const newTransactionData = {
-                    id: generateTransactionId(),
-                    recipient: transactionRecipient,
-                    amount: formattedAmount,
-                    date: 'Today',
-                    status: 'sent', // Directly set to 'sent'
-                    timestamp: Date.now()
-                };
-                savedTransactions.unshift(newTransactionData);
-                localStorage.setItem('transactions', JSON.stringify(savedTransactions));
-
-                // Re-render all transactions
-                renderTransactions();
-
-                // Clear URL parameters
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
+                // Redirect to completed.html with parameters
+                window.location.href = `realizado.html?amount=${encodeURIComponent(formattedAmount)}&recipient=${encodeURIComponent(recipient)}`;
+            });
         });
     </script>
-
-    <style>
-        .received-status {
-            font-size: 12px;
-            margin-top: 5px;
-        }
-        .status-sent {
-            color: #28a745;
-            font-weight: bold;
-            font-style: italic; /* Maintained italic style */
-        }
-        .received-amount.negative {
-            color: red; /* Changed color for negative amounts */
-        }
-    </style>
 </body>
 </html>

@@ -24,7 +24,7 @@
                 <div class="balance-header">
                     <img src="https://cdn.pixabay.com/photo/2018/05/08/21/29/paypal-3384015_1280.png" alt="PayPal" class="balance-logo">
                     <div class="balance-titles">
-                        <div class="balance-amount"><strong><b id="currentBalance">US$ 152,700.00</b></strong></div>
+                        <div class="balance-amount"><strong><b id="currentBalance">US$ 15,2700.00</b></strong></div>
                         <div class="balance-label">Balance</div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                         <div class="received-description">Your welcome bonus is ready. Enj...</div>
                         <div class="received-date">Today</div>
                     </div>
-                    <div class="received-amount positive"><b>+US$ 15,2700.00</b></div>
+                    <div class="received-amount positive"><b>+US$ 152,700.00</b></div>
                 </div>
                 
                 <!-- Negative Transaction 1 -->
@@ -70,7 +70,7 @@
                         <div class="received-from"><b>Nequi (by Bancolombia)</b></div>
                         <div class="received-date">Yesterday</div>
                     </div>
-                    <div class="received-amount negative"><b>-US$ 1250.00</b></div>
+                    <div class="received-amount negative"><b>-US$ 1,250.00</b></div>
                 </div>
 
                 <!-- Negative Transaction 2 -->
@@ -95,7 +95,7 @@
                         <div class="received-description">Your funds have been successfully delivered. Enj...</div>
                         <div class="received-date">Apr 27</div>
                     </div>
-                    <div class="received-amount positive"><b>+US$ 2000.00</b></div>
+                    <div class="received-amount positive"><b>+US$ 2,000.00</b></div>
                 </div>
             </div>
         </section>
@@ -173,8 +173,6 @@
                     const newTransaction = document.createElement('div');
                     newTransaction.className = 'received-item dynamic';
                     newTransaction.dataset.txnId = transaction.id;
-                    const statusText = transaction.status === 'processing' ? 'Processing...' : 'Sent';
-                    const statusClass = transaction.status === 'processing' ? 'status-processing' : 'status-sent';
                     newTransaction.innerHTML = `
                         <div class="received-avatar">
                             <i class="fas fa-user"></i>
@@ -182,7 +180,7 @@
                         <div class="received-details">
                             <div class="received-from"><b>${transaction.recipient}</b></div>
                             <div class="received-date">${transaction.date}</div>
-                            <div class="received-status ${statusClass}">${statusText}</div>
+                            <div class="received-status status-sent">Sent</div>
                         </div>
                         <div class="received-amount negative"><b>-US$ ${transaction.amount}</b></div>
                     `;
@@ -190,31 +188,8 @@
                 });
             }
 
-            // Update transaction statuses
-            function updateTransactionStatuses() {
-                let updated = false;
-                savedTransactions = savedTransactions.map(transaction => {
-                    if (transaction.status === 'processing') {
-                        const timeElapsed = (Date.now() - transaction.timestamp) / 1000; // Seconds
-                        if (timeElapsed >= 1800) { // 30 minutes
-                            transaction.status = 'sent';
-                            updated = true;
-                        }
-                    }
-                    return transaction;
-                });
-                if (updated) {
-                    localStorage.setItem('transactions', JSON.stringify(savedTransactions));
-                    renderTransactions();
-                }
-            }
-
-            // Render initial transactions and update statuses
-            updateTransactionStatuses();
+            // Render initial transactions
             renderTransactions();
-
-            // Check statuses periodically
-            setInterval(updateTransactionStatuses, 60000); // Every minute
 
             // Get URL parameters
             const urlParams = new URLSearchParams(window.location.search);
@@ -238,7 +213,7 @@
                     recipient: transactionRecipient,
                     amount: formattedAmount,
                     date: 'Today',
-                    status: 'processing',
+                    status: 'sent', // Directly set to 'sent'
                     timestamp: Date.now()
                 };
                 savedTransactions.unshift(newTransactionData);
@@ -258,15 +233,14 @@
             font-size: 12px;
             margin-top: 5px;
         }
-        .status-processing {
-            color: #888;
-            font-style: italic;
-        }
         .status-sent {
             color: #28a745;
             font-weight: bold;
+            font-style: italic; /* Maintained italic style */
+        }
+        .received-amount.negative {
+            color: red; /* Changed color for negative amounts */
         }
     </style>
 </body>
-
 </html>
